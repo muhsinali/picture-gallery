@@ -1,0 +1,16 @@
+@(placeForm: Form[Place])
+@import helper._
+@import helper.twitterBootstrap._
+
+
+
+@main("List"){
+    @helper.form(action = routes.Application.upload(), 'enctype -> "multipart/form-data") {
+        <fieldset>
+            <legend>Add a place</legend>
+            @helper.inputText(placeForm("name"),'_label -> "Name")
+            @helper.inputFile(placeForm("picture"), '_label -> "Picture")
+            <input type="submit" class="btn btn-primary" value="Save place">
+        </fieldset>
+    }
+}

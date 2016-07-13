@@ -1,0 +1,27 @@
+@(places: List[Place])
+@import helper._
+@import helper.twitterBootstrap._
+
+
+
+@main("List"){
+    <table class="table table-striped">
+        <thead>
+            <th>Place ID</th>
+            <th>Filename</th>
+            <th>Content type</th>
+            <th>Preview</th>
+        </thead>
+
+        <tbody>
+            @for(currentPlace <- places) {
+                <tr>
+                    <td>@currentPlace.id</td>
+                    <td>@currentPlace.name</td>
+                    <td>@currentPlace.contentType</td>
+                    <td><img style="height: 50px" src="/place/@currentPlace.id" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
