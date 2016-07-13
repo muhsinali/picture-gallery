@@ -33,26 +33,32 @@ public class Application extends Controller {
 
     public static Result upload() {
         Http.MultipartFormData body = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart filePart = body.getFile("picture");
+        Form<Place> boundForm = addPlaceForm.bindFromRequest();
+        if(boundForm.hasErrors()){
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("Please correct the form below:\n");
+            flash("error", stringBuffer.toString());
+            return badRequest(placeForm.render(boundForm));
+        }
 
-        if (filePart != null) {
-            String contentType = filePart.getContentType();
-            File file = filePart.getFile();
-            try {
-                Place place = new Place();
-                place.id = Place.places.size();
-                place.picture = Files.toByteArray(file);
-                place.name = filePart.getFilename();
-                place.contentType = contentType;
-                Place.places.add(place);
-                return ok(list.render(Place.places));
-            } catch(IOException e){
-                return internalServerError("Could not save picture");
-            }
-        } else {
+        Http.MultipartFormData.FilePart filePart = body.getFile("picture");
+        if (filePart == null) {
             flash("error", "Missing file");
             return notFound();
         }
-    }
 
+        String contentType = filePart.getContentType();
+        File file = filePart.getFile();
+        try {
+            Place place = new Place();
+            place.id = (long) Place.places.size();
+            place.picture = Files.toByteArray(file);
+            place.name = filePart.getFilename();
+            place.contentType = contentType;
+            Place.places.add(place);
+            return ok(list.render(Place.places));
+        } catch(IOException e){
+            return internalServerError("Could not save picture");
+        }
+    }
 }

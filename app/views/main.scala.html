@@ -10,10 +10,20 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
     </head>
-    <body>
-        <div class="container">
-            <h1>Example file upload program</h1>
-            @content
-        </div>
+    <body class="container">
+        @if(flash.containsKey("success")){
+            <div class="alert alert-success">
+                @flash.get("success")
+            </div>
+        }
+
+        @if(flash.containsKey("error")){
+            <div class="alert alert-danger">
+                @flash.get("error")
+            </div>
+        }
+
+        <h1>Example file upload program</h1>
+        @content
     </body>
 </html>

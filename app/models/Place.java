@@ -18,7 +18,7 @@ public class Place {
     public static List<Place> places = new ArrayList<>();
 
     @Id
-    public long id;
+    public Long id;
 
     @Constraints.Required
     public String name;
