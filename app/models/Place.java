@@ -22,7 +22,6 @@ public class Place {
 
     @Constraints.Required
     public String name;
-    @Constraints.Required
     public byte[] picture;
 
     public String contentType;

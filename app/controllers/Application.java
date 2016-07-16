@@ -35,9 +35,7 @@ public class Application extends Controller {
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Form<Place> boundForm = addPlaceForm.bindFromRequest();
         if(boundForm.hasErrors()){
-            StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append("Please correct the form below:\n");
-            flash("error", stringBuffer.toString());
+            flash("error", "Please correct the form below.");
             return badRequest(placeForm.render(boundForm));
         }
 
@@ -47,18 +45,14 @@ public class Application extends Controller {
             return notFound();
         }
 
-        String contentType = filePart.getContentType();
-        File file = filePart.getFile();
         try {
-            Place place = new Place();
-            place.id = (long) Place.places.size();
-            place.picture = Files.toByteArray(file);
-            place.name = filePart.getFilename();
-            place.contentType = contentType;
+            Place place = boundForm.get();
+            place.contentType = filePart.getContentType();
+            place.picture = Files.toByteArray(filePart.getFile());
             Place.places.add(place);
             return ok(list.render(Place.places));
-        } catch(IOException e){
-            return internalServerError("Could not save picture");
+        } catch (IOException e){
+            return internalServerError("Could not save place");
         }
     }
 }
