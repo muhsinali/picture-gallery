@@ -50,6 +50,8 @@ public class Application extends Controller {
             place.contentType = filePart.getContentType();
             place.picture = Files.toByteArray(filePart.getFile());
             Place.places.add(place);
+
+            place.save();
             return ok(list.render(Place.places));
         } catch (IOException e){
             return internalServerError("Could not save place");
