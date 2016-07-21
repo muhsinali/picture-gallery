@@ -17,7 +17,7 @@ import java.util.List;
 
 @Entity
 public class Place extends Model {
-    public static List<Place> places = new ArrayList<>();
+    public static Finder<Long, Place> find = new Finder<>(Long.class, Place.class);
 
     @Id
     public Long id;

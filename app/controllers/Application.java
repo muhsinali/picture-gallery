@@ -15,7 +15,8 @@ public class Application extends Controller {
     private static final Form<Place> addPlaceForm = Form.form(Place.class);
 
     public static Result list() {
-        return ok(list.render(Place.places));
+        //return ok(list.render(Place.places));
+        return ok(list.render(Place.find.all()));
     }
 
     public static Result addPlace(){
@@ -23,12 +24,15 @@ public class Application extends Controller {
     }
 
     public static Result showPlace(long id){
-        for(Place place : Place.places){
-            if(place.id == id){
-                return ok(place.picture);
-            }
-        }
-        return badRequest();
+//        for(Place place : Place.places){
+//            if(place.id == id){
+//                return ok(place.picture);
+//            }
+//        }
+        //return badRequest();
+
+        Place foundPlace = Place.find.byId(id);
+        return foundPlace != null ? ok(foundPlace.picture) : badRequest();
     }
 
     public static Result upload() {
@@ -49,10 +53,11 @@ public class Application extends Controller {
             Place place = boundForm.get();
             place.contentType = filePart.getContentType();
             place.picture = Files.toByteArray(filePart.getFile());
-            Place.places.add(place);
+            //Place.places.add(place);
 
             place.save();
-            return ok(list.render(Place.places));
+            //return ok(list.render(Place.places));
+            return ok(list.render(Place.find.all()));
         } catch (IOException e){
             return internalServerError("Could not save place");
         }
