@@ -7,26 +7,27 @@
 @main("List"){
 
     <script>
-         function del(urlToDelete) {
-            $.ajax({
-              url: urlToDelete,
-              type: 'DELETE',
-              success: function(results) {
-                // Refresh the page
-                location.reload();
-              }
-            });
+     function del(urlToDelete) {
+        $.ajax({
+          url: urlToDelete,
+          type: 'DELETE',
+          success: function(results) {
+            // Refresh the page
+            location.reload();
           }
-    </script>
+        });
+      }
+   </script>
 
     <table class="table table-striped">
         <thead>
-            <th>Place ID</th>
-            <th>Name</th>
-            <th>Picture</th>
-            <th>Edit</th>
-            <th>Delete</th>
-
+            <tr>
+                <th>Place ID</th>
+                <th>Name</th>
+                <th>Picture</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
         </thead>
 
         <tbody>
@@ -35,8 +36,8 @@
                     <td><a href="@routes.Application.details(currentPlace)">@currentPlace.id</a></td>
                     <td><a href="@routes.Application.details(currentPlace)">@currentPlace.name</a></td>
                     <td><a href="@routes.Application.details(currentPlace)"><img style="height: 50px" src="@routes.Application.getPictureOfPlace(currentPlace.id)" /></a></td>
-                    <td><a href="@routes.Application.details(currentPlace)"><i class="glyphicon glyphicon-pencil"></i></a></td>
-                    <td><a onclick="javascript:del('@routes.Application.deletePlace(currentPlace.id)')"><i class="glyphicon glyphicon-trash"></i></a></td>
+                    <td><a class="glyphicon glyphicon-pencil" href="@routes.Application.details(currentPlace)"></a></td>
+                    <td><a class="glyphicon glyphicon-trash" onclick="javascript:del('@routes.Application.deletePlace(currentPlace.id)')"></a></td>
                 </tr>
             }
         </tbody>

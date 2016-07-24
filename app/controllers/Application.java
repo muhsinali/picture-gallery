@@ -14,9 +14,11 @@ import java.io.IOException;
 public class Application extends Controller {
     private static final Form<Place> addPlaceForm = Form.form(Place.class);
 
+
     public static Result list() {
         return ok(list.render(Place.find.all()));
     }
+
 
     public static Result addPlace(){
         return ok(placeForm.render(addPlaceForm));
@@ -32,15 +34,18 @@ public class Application extends Controller {
         return ok(list.render(Place.find.all()));
     }
 
+
     public static Result details(Place place) {
         Form<Place> filledForm = addPlaceForm.fill(place);
         return ok(placeForm.render(filledForm));
     }
-    
+
+
     public static Result getPictureOfPlace(long id){
         Place foundPlace = Place.find.byId(id);
         return foundPlace != null ? ok(foundPlace.picture) : badRequest();
     }
+
 
     public static Result upload() {
         Http.MultipartFormData body = request().body().asMultipartFormData();
@@ -50,23 +55,25 @@ public class Application extends Controller {
             return badRequest(placeForm.render(boundForm));
         }
 
-        // TODO: get a regression here when you try to update a picture. Why? bc when you show the filled form, the picture part
-        // TODO: isn't selected. Check if it is selected in the Warehouse application and copy from that.
         Http.MultipartFormData.FilePart filePart = body.getFile("picture");
-        if (filePart == null) {
-            flash("error", "Missing file");
+        Place place = boundForm.get();
+
+        if (filePart == null && Place.findById(place.id).picture == null) {
+            flash("error", "Missing picture");
             return notFound();
         }
 
-        Place place = boundForm.get();
-        place.contentType = filePart.getContentType();
-        try {
-            place.picture = Files.toByteArray(filePart.getFile());
-        } catch (IOException e){
-            return internalServerError("Could not save place");
+        // If a new picture was provided, execute this code
+        if(filePart != null) {
+            place.contentType = filePart.getContentType();
+            try {
+                place.picture = Files.toByteArray(filePart.getFile());
+            } catch (IOException e) {
+                return internalServerError("Could not save place");
+            }
         }
 
-        // Check whether you need to edit or add the Place
+        // Check whether the place is new or is a re-existing one
         if(place.id == null){
             place.save();
         } else {
@@ -76,3 +83,5 @@ public class Application extends Controller {
         return ok(list.render(Place.find.all()));
     }
 }
+
+

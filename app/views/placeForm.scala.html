@@ -7,10 +7,19 @@
     @helper.form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
         <fieldset>
             <legend>Add a place</legend>
-            @helper.inputText(placeForm("name"),'_label -> "Name", 'placeholder -> "John Dunnoe")
+            <input type="hidden" value="@placeForm("id").valueOr("")" name="id"/>
+            @helper.inputText(placeForm("name"),'_label -> "Name", 'placeholder -> "London")
             @helper.inputFile(placeForm("picture"), '_label -> "Picture")
-            <input type="submit" class="btn btn-primary" value="Save place">
-            <a href="@routes.Application.list()" class="btn btn-primary">Cancel</a>
+            @if(!placeForm("picture").valueOr("").isEmpty()){
+                <div class="control-group">
+                    <div class="controls">
+                        <img style="position:relative; left:50px;height:80px"
+                             src="/get-picture-of-place/@placeForm("id").value" />
+                    </div>
+                </div>
+            }
         </fieldset>
+        <input type="submit" class="btn btn-primary" value="Save place">
+        <a href="@routes.Application.list()" class="btn btn-default">Cancel</a>
     }
 }

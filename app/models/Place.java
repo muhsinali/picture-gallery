@@ -42,8 +42,6 @@ public class Place extends Model implements PathBindable<Place> {
 
     @Override
     public Place bind(String key, String value){
-        System.out.println(key);
-        System.out.println(value);
         return findById(new Long(value));
     }
 
