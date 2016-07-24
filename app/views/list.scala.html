@@ -16,10 +16,10 @@
         <tbody>
             @for(currentPlace <- places) {
                 <tr>
-                    <td>@currentPlace.id</td>
-                    <td>@currentPlace.name</td>
-                    <td>@currentPlace.contentType</td>
-                    <td><img style="height: 50px" src="/place/@currentPlace.id" /></td>
+                    <td><a href="/place/@currentPlace">@currentPlace.id</a></td>
+                    <td><a href="/place/@currentPlace">@currentPlace.name</a></td>
+                    <td><a href="/place/@currentPlace">@currentPlace.contentType</a></td>
+                    <td><a href="/place/@currentPlace"><img style="height: 50px" src="/get-picture-of-place/@currentPlace.id" /></a></td>
                 </tr>
             }
         </tbody>

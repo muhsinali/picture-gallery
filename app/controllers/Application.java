@@ -15,7 +15,6 @@ public class Application extends Controller {
     private static final Form<Place> addPlaceForm = Form.form(Place.class);
 
     public static Result list() {
-        //return ok(list.render(Place.places));
         return ok(list.render(Place.find.all()));
     }
 
@@ -23,14 +22,13 @@ public class Application extends Controller {
         return ok(placeForm.render(addPlaceForm));
     }
 
-    public static Result showPlace(long id){
-//        for(Place place : Place.places){
-//            if(place.id == id){
-//                return ok(place.picture);
-//            }
-//        }
-        //return badRequest();
 
+    public static Result details(Place place) {
+        Form<Place> filledForm = addPlaceForm.fill(place);
+        return ok(placeForm.render(filledForm));
+    }
+    
+    public static Result getPictureOfPlace(long id){
         Place foundPlace = Place.find.byId(id);
         return foundPlace != null ? ok(foundPlace.picture) : badRequest();
     }
@@ -49,17 +47,21 @@ public class Application extends Controller {
             return notFound();
         }
 
+        Place place = boundForm.get();
+        place.contentType = filePart.getContentType();
         try {
-            Place place = boundForm.get();
-            place.contentType = filePart.getContentType();
             place.picture = Files.toByteArray(filePart.getFile());
-            //Place.places.add(place);
-
-            place.save();
-            //return ok(list.render(Place.places));
-            return ok(list.render(Place.find.all()));
         } catch (IOException e){
             return internalServerError("Could not save place");
         }
+
+        // Check whether you need to edit or add the Place
+        if(place.id == null){
+            place.save();
+        } else {
+            place.update();
+        }
+
+        return ok(list.render(Place.find.all()));
     }
 }
