@@ -7,6 +7,7 @@ GET     /                                   controllers.Application.list()
 GET     /add-place                          controllers.Application.addPlace()
 GET     /get-picture-of-place/:id           controllers.Application.getPictureOfPlace(id: Long)
 GET     /place/:place                       controllers.Application.details(place: models.Place)
+DELETE  /delete/:id                         controllers.Application.deletePlace(id: Long)
 POST    /                                   controllers.Application.upload()
 
 # Map static resources from the /public folder to the /assets URL path

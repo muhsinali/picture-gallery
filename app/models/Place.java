@@ -31,6 +31,9 @@ public class Place extends Model implements PathBindable<Place> {
         // Left empty - for the PathBindable interface
     }
 
+    public static Place findById(long id){
+        return find.where().eq("id", id).findUnique();
+    }
 
     public String toString() {
         return Long.toString(id);
@@ -41,7 +44,7 @@ public class Place extends Model implements PathBindable<Place> {
     public Place bind(String key, String value){
         System.out.println(key);
         System.out.println(value);
-        return find.where().eq("id", value).findUnique();
+        return findById(new Long(value));
     }
 
     @Override

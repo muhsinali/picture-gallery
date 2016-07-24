@@ -23,6 +23,15 @@ public class Application extends Controller {
     }
 
 
+    public static Result deletePlace(long id){
+        Place foundPlace = Place.findById(id);
+        if(foundPlace == null){
+            return notFound(String.format("Product with id %d does not exist", id));
+        }
+        foundPlace.delete();
+        return ok(list.render(Place.find.all()));
+    }
+
     public static Result details(Place place) {
         Form<Place> filledForm = addPlaceForm.fill(place);
         return ok(placeForm.render(filledForm));
@@ -41,6 +50,8 @@ public class Application extends Controller {
             return badRequest(placeForm.render(boundForm));
         }
 
+        // TODO: get a regression here when you try to update a picture. Why? bc when you show the filled form, the picture part
+        // TODO: isn't selected. Check if it is selected in the Warehouse application and copy from that.
         Http.MultipartFormData.FilePart filePart = body.getFile("picture");
         if (filePart == null) {
             flash("error", "Missing file");
