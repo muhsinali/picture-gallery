@@ -7,23 +7,24 @@
 @main("List"){
 
     <script>
-     function del(urlToDelete) {
-        $.ajax({
-          url: urlToDelete,
-          type: 'DELETE',
-          success: function(results) {
-            // Refresh the page
-            location.reload();
-          }
-        });
-      }
-   </script>
+        function del(urlToDelete) {
+            $.ajax({
+                url: urlToDelete,
+                type: 'DELETE',
+                success: function(results) {
+                    // Refresh the page
+                    location.reload();
+                }
+            });
+        }
+    </script>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Place ID</th>
-                <th>Name</th>
+                <th>ID</th>
+                <th>Place</th>
+                <th>Country</th>
                 <th>Picture</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -35,6 +36,7 @@
                 <tr>
                     <td><a href="@routes.Application.details(currentPlace)">@currentPlace.id</a></td>
                     <td><a href="@routes.Application.details(currentPlace)">@currentPlace.name</a></td>
+                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.country</a></td>
                     <td><a href="@routes.Application.details(currentPlace)"><img style="height: 50px" src="@routes.Application.getPictureOfPlace(currentPlace.id)" /></a></td>
                     <td><a class="glyphicon glyphicon-pencil" href="@routes.Application.details(currentPlace)"></a></td>
                     <td><a class="glyphicon glyphicon-trash" onclick="javascript:del('@routes.Application.deletePlace(currentPlace.id)')"></a></td>

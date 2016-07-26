@@ -23,6 +23,9 @@ public class Place extends Model implements PathBindable<Place> {
 
     @Constraints.Required
     public String name;
+    @Constraints.Required
+    public String country;
+
     @Lob
     public byte[] picture;
     public String contentType;

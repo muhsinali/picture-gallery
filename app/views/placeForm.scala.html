@@ -8,7 +8,8 @@
         <fieldset>
             <legend>Add a place</legend>
             <input type="hidden" value="@placeForm("id").valueOr("")" name="id"/>
-            @helper.inputText(placeForm("name"),'_label -> "Name", 'placeholder -> "London")
+            @helper.inputText(placeForm("name"), '_label -> "Name", 'placeholder -> "London")
+            @helper.inputText(placeForm("country"), '_label -> "Country", 'placeholder -> "United Kingdom")
             @helper.inputFile(placeForm("picture"), '_label -> "Picture")
             @if(!placeForm("picture").valueOr("").isEmpty()){
                 <div class="control-group">

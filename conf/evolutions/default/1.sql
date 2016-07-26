@@ -6,6 +6,7 @@
 create table place (
   id                        bigint not null,
   name                      varchar(255),
+  country                   varchar(255),
   picture                   blob,
   content_type              varchar(255),
   constraint pk_place primary key (id))
