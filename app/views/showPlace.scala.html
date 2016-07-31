@@ -4,14 +4,14 @@
 
 
 @main("Show Place"){
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/showPlace.css")">
+}{
     <script>
         function del(urlToDelete) {
             $.ajax({
                 url: urlToDelete,
                 type: 'DELETE',
                 success: function(results) {
-                    // Refresh the page
-                    location.reload();
                 }
             });
         }
@@ -38,7 +38,5 @@
 }
 <a class="btn btn-primary" href="@routes.Application.editForm(place)">Edit</a>
 <a class="btn btn-default" onclick="javascript:del('@routes.Application.deletePlace(place.id)')">Delete</a>
-
-<a class="glyphicon glyphicon-trash" onclick="javascript:del('@routes.Application.deletePlace(place.id)')"></a>
 }
 

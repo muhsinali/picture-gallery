@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                   controllers.Application.showGrid()
+GET     /show-as-list                       controllers.Application.showList()
 GET     /add-place                          controllers.Application.addPlace()
 GET     /get-picture-of-place/:id           controllers.Application.getPictureOfPlace(id: Long)
 GET     /place/:place                       controllers.Application.details(place: models.Place)

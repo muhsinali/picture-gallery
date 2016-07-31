@@ -1,27 +1,37 @@
-@(places: List[Place])
+@(places: List[Place], numRows: Int, numColumns: Int)
 @import helper._
 @import helper.twitterBootstrap._
 
 
 
 @main("Grid"){
-<a class="btn btn-primary" href="/add-place">Add place</a>
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/grid.css")">
+}{
+<div class="pull-right">
+    <a class="btn btn-primary btn-lrg" href="/add-place">Add place</a>
+    <a class="btn btn-default btn-lrg" href="@routes.Application.showGrid()">
+        <span class="glyphicon glyphicon-th"></span>
+    </a>
+    <a class="btn btn-default btn-lrg" href="@routes.Application.showList()">
+        <span class="glyphicon glyphicon-th-list"></span>
+    </a>
+</div>
 
-@for(i <- 0 to 2){
+@for(i <- 0 until numRows){
     <div class="row">
         <div class="col-md-4">
-            <a class="thumbnail" href="@routes.Application.details(places(3 * i))">
-                <img src="@routes.Application.getPictureOfPlace(places(3 * i).id)">
+            <a class="thumbnail" href="@routes.Application.details(places(numColumns * i))">
+                <img src="@routes.Application.getPictureOfPlace(places(numColumns * i).id)">
             </a>
         </div>
         <div class="col-md-4">
-            <a class="thumbnail" href="@routes.Application.details(places(3 * i + 1))">
-                <img src="@routes.Application.getPictureOfPlace(places(3 * i + 1).id)">
+            <a class="thumbnail" href="@routes.Application.details(places(numColumns * i + 1))">
+                <img src="@routes.Application.getPictureOfPlace(places(numColumns * i + 1).id)">
             </a>
         </div>
         <div class="col-md-4">
-            <a class="thumbnail" href="@routes.Application.details(places(3 * i + 2))">
-                <img src="@routes.Application.getPictureOfPlace(places(3 * i + 2).id)">
+            <a class="thumbnail" href="@routes.Application.details(places(numColumns * i + 2))">
+                <img src="@routes.Application.getPictureOfPlace(places(numColumns * i + 2).id)">
             </a>
         </div>
     </div>

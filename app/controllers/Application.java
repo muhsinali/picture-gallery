@@ -5,6 +5,7 @@ import models.Place;
 import play.data.Form;
 import play.mvc.*;
 import views.html.grid;
+import views.html.list;
 import views.html.placeForm;
 import views.html.showPlace;
 
@@ -16,8 +17,13 @@ public class Application extends Controller {
 
 
     public static Result showGrid(){
-        System.out.println("Entered showGrid()");
-        return ok(grid.render(Place.find.all()));
+        int numPlaces = Place.find.all().size();
+        System.out.println(String.format("Entered showGrid(). There's %d rows and %d columns in the grid", numPlaces / 3, 3));
+        return ok(grid.render(Place.find.all(), numPlaces / 3, 3));
+    }
+
+    public static Result showList(){
+        return ok(list.render(Place.find.all()));
     }
 
 

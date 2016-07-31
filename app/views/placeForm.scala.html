@@ -4,6 +4,8 @@
 
 
 @main("List"){
+<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/placeForm.css")">
+}{
     <script>
         function del(urlToDelete) {
             $.ajax({
@@ -27,7 +29,7 @@
                 @helper.textarea(placeForm("description"), '_label -> "Description", 'placeholder -> "Type a description here")
                 @helper.inputFile(placeForm("picture"), '_label -> "Picture")
             </fieldset>
-            <input type="submit" class="btn btn-primary" value="Save place">
+            <input type="submit" class="btn btn-success" value="Save place">
             <a href="@routes.Application.showGrid()" class="btn btn-default">Cancel</a>
         }
     </div>
