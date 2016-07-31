@@ -3,10 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                                   controllers.Application.list()
+GET     /                                   controllers.Application.showGrid()
 GET     /add-place                          controllers.Application.addPlace()
 GET     /get-picture-of-place/:id           controllers.Application.getPictureOfPlace(id: Long)
 GET     /place/:place                       controllers.Application.details(place: models.Place)
+GET     /edit-place/:place                  controllers.Application.editForm(place: models.Place)
 DELETE  /delete/:id                         controllers.Application.deletePlace(id: Long)
 POST    /                                   controllers.Application.upload()
 

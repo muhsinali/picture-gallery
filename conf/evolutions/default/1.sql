@@ -9,6 +9,7 @@ create table place (
   country                   varchar(255),
   picture                   blob,
   content_type              varchar(255),
+  description               varchar(255),
   constraint pk_place primary key (id))
 ;
 

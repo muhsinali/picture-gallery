@@ -1,0 +1,29 @@
+@(places: List[Place])
+@import helper._
+@import helper.twitterBootstrap._
+
+
+
+@main("Grid"){
+<a class="btn btn-primary" href="/add-place">Add place</a>
+
+@for(i <- 0 to 2){
+    <div class="row">
+        <div class="col-md-4">
+            <a class="thumbnail" href="@routes.Application.details(places(3 * i))">
+                <img src="@routes.Application.getPictureOfPlace(places(3 * i).id)">
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="thumbnail" href="@routes.Application.details(places(3 * i + 1))">
+                <img src="@routes.Application.getPictureOfPlace(places(3 * i + 1).id)">
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a class="thumbnail" href="@routes.Application.details(places(3 * i + 2))">
+                <img src="@routes.Application.getPictureOfPlace(places(3 * i + 2).id)">
+            </a>
+        </div>
+    </div>
+}
+}

@@ -30,6 +30,8 @@ public class Place extends Model implements PathBindable<Place> {
     public byte[] picture;
     public String contentType;
 
+    public String description;
+
     public Place(){
         // Left empty - for the PathBindable interface
     }

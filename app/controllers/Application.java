@@ -4,10 +4,10 @@ import com.google.common.io.Files;
 import models.Place;
 import play.data.Form;
 import play.mvc.*;
-import views.html.list;
+import views.html.grid;
 import views.html.placeForm;
+import views.html.showPlace;
 
-import java.io.File;
 import java.io.IOException;
 
 
@@ -15,8 +15,9 @@ public class Application extends Controller {
     private static final Form<Place> addPlaceForm = Form.form(Place.class);
 
 
-    public static Result list() {
-        return ok(list.render(Place.find.all()));
+    public static Result showGrid(){
+        System.out.println("Entered showGrid()");
+        return ok(grid.render(Place.find.all()));
     }
 
 
@@ -26,16 +27,29 @@ public class Application extends Controller {
 
 
     public static Result deletePlace(long id){
+        System.out.println("Entered deletePlace()");
         Place foundPlace = Place.findById(id);
         if(foundPlace == null){
             return notFound(String.format("Product with id %d does not exist", id));
         }
+        System.out.println("Just about to delete the place");
         foundPlace.delete();
-        return ok(list.render(Place.find.all()));
+
+        for(Place p : Place.find.all()){
+            System.out.println(p.id);
+        }
+        System.out.println(String.format("Deleted the place and there's %d places left over", Place.find.all().size()));
+        System.out.println("Just about to render the grid");
+
+        return showGrid();
     }
 
 
     public static Result details(Place place) {
+        return ok(showPlace.render(place));
+    }
+
+    public static Result editForm(Place place) {
         Form<Place> filledForm = addPlaceForm.fill(place);
         return ok(placeForm.render(filledForm));
     }
@@ -73,14 +87,14 @@ public class Application extends Controller {
             }
         }
 
-        // Check whether the place is new or is a re-existing one
+        // Check whether the place is new or is a pre-existing one
         if(place.id == null){
             place.save();
         } else {
             place.update();
         }
 
-        return ok(list.render(Place.find.all()));
+        return showGrid();
     }
 }
 
