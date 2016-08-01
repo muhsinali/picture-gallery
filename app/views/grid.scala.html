@@ -7,23 +7,17 @@
 @main("Grid"){
 <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/grid.css")">
 }{
-@for(i <- 0 until numRows){
+@for(r <- 0 until numRows){
     <div class="row">
-        <div class="col-md-4">
-            <a class="thumbnail" href="@routes.Application.details(places(numColumns * i))">
-                <img src="@routes.Application.getPictureOfPlace(places(numColumns * i).id)">
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a class="thumbnail" href="@routes.Application.details(places(numColumns * i + 1))">
-                <img src="@routes.Application.getPictureOfPlace(places(numColumns * i + 1).id)">
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a class="thumbnail" href="@routes.Application.details(places(numColumns * i + 2))">
-                <img src="@routes.Application.getPictureOfPlace(places(numColumns * i + 2).id)">
-            </a>
-        </div>
+        @for(c <- 0 until numColumns){
+            @if(numColumns * r + c < places.length){
+                <div class="col-md-4">
+                    <a class="thumbnail" href="@routes.Application.details(places(numColumns * r + c))">
+                        <img src="@routes.Application.getPictureOfPlace(places(numColumns * r + c).id)">
+                    </a>
+                </div>
+            }
+        }
     </div>
 }
 }
