@@ -1,0 +1,30 @@
+#place-details {
+    height: 500px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+}
+
+#left-div {
+    height: inherit;
+    max-width: 40%;
+    min-width: 400px;
+}
+
+#right-div {
+    height: inherit;
+    width: 55%;
+    min-width: 300px;
+}
+
+/* Specifies the spacing of the text in the left div */
+h4 { margin: 10px 0px 5px; }
+p { margin-bottom: 30px; }
+
+/* Adds extra spacing between the picture and its title  */
+#right-column h4 { margin-bottom: 10px; }
+
+img {
+    width: 100%;
+    min-width: 200px;
+    float: right;
+}

@@ -25,11 +25,26 @@
         }
 
         <h1>Picture gallery</h1>
+        <div class="view-buttons pull-right">
+            <a class="btn btn-primary btn-lrg" href="/add-place">Add place</a>
+            <a class="btn btn-default btn-lrg" href="@routes.Application.showGrid()">
+                <span class="glyphicon glyphicon-th"></span>
+            </a>
+            <a class="btn btn-default btn-lrg" href="@routes.Application.showList()">
+                <span class="glyphicon glyphicon-th-list"></span>
+            </a>
+        </div>
+
+        @*************
+            Content
+        *************@
         @content
 
         <footer>
-            <p>Created by Muhsin Ali</p>
-            <p>The images used have been obtained under the Creative Commons (CC0) license.</p>
+            <p>
+            Created by Muhsin Ali.<br>
+            The images used have been obtained under the Creative Commons (CC0) license.
+            </p>
         </footer>
     </body>
 </html>

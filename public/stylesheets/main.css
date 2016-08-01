@@ -1,24 +1,28 @@
+body {
+    background-color: #EEEEEE;
+}
+
+
 h1 {
     text-align: center;
     font-family: "Open Sans";
     font-size: 72px;
-    padding-bottom: 20px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid black;
 }
 
-body {
-    background-color: #EEEEEE;
+
+.view-buttons {
+    width: inherit;
+    text-align: right;
+    border-bottom: 2px solid black;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
 }
+
 
 h4 {
     margin: 50px 0px 8px;
 }
 
-textarea {
-    height: 130px;
-    width: 400px;
-}
 
 footer {
     border-top: 2px solid black;

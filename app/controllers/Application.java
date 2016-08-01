@@ -18,7 +18,7 @@ public class Application extends Controller {
 
     public static Result showGrid(){
         int numPlaces = Place.find.all().size();
-        System.out.println(String.format("Entered showGrid(). There's %d rows and %d columns in the grid", numPlaces / 3, 3));
+//        System.out.println(String.format("Entered showGrid(). There's %d rows and %d columns in the grid", numPlaces / 3, 3));
         return ok(grid.render(Place.find.all(), numPlaces / 3, 3));
     }
 
@@ -33,19 +33,19 @@ public class Application extends Controller {
 
 
     public static Result deletePlace(long id){
-        System.out.println("Entered deletePlace()");
+//        System.out.println("Entered deletePlace()");
         Place foundPlace = Place.findById(id);
         if(foundPlace == null){
             return notFound(String.format("Product with id %d does not exist", id));
         }
-        System.out.println("Just about to delete the place");
+//        System.out.println("Just about to delete the place");
         foundPlace.delete();
 
         for(Place p : Place.find.all()){
             System.out.println(p.id);
         }
-        System.out.println(String.format("Deleted the place and there's %d places left over", Place.find.all().size()));
-        System.out.println("Just about to render the grid");
+//        System.out.println(String.format("Deleted the place and there's %d places left over", Place.find.all().size()));
+//        System.out.println("Just about to render the grid");
 
         return showGrid();
     }

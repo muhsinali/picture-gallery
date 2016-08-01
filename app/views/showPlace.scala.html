@@ -17,26 +17,30 @@
         }
     </script>
 
-<div class="pull-left">
-    <h4>Name</h4>
-    <p>@place.name</p>
+<div id="place-details">
+    <div id="left-div" class="pull-left">
+        <h4>Name</h4>
+        <p>@place.name</p>
 
-    <h4>Country</h4>
-    <p>@place.country</p>
+        <h4>Country</h4>
+        <p>@place.country</p>
 
-    <h4>Description</h4>
-    <p>@place.description</p>
-</div>
+        <h4>Description</h4>
+        <p>@place.description</p>
 
-
-
-@if(place.picture != null){
-    <div class="pull-right">
-        <h4>Current picture</h4>
-        <img style="height:300px" src="/get-picture-of-place/@place.id" />
+        <div class="pull-right">
+            <a class="btn btn-default" href="@routes.Application.editForm(place)">Edit</a>
+            <a class="btn btn-danger" onclick="javascript:del('@routes.Application.deletePlace(place.id)')">Delete</a>
+        </div>
     </div>
-}
-<a class="btn btn-primary" href="@routes.Application.editForm(place)">Edit</a>
-<a class="btn btn-default" onclick="javascript:del('@routes.Application.deletePlace(place.id)')">Delete</a>
+
+
+    @if(place.picture != null){
+        <div id="right-div" class="pull-right">
+            <h4>Current picture</h4>
+            <img src="/get-picture-of-place/@place.id" />
+        </div>
+    }
+</div>
 }
 
