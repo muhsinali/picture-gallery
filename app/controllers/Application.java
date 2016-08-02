@@ -38,10 +38,6 @@ public class Application extends Controller {
         }
         foundPlace.delete();
 
-        for(Place p : Place.find.all()){
-            System.out.println(p.id);
-        }
-
         return showGrid();
     }
 

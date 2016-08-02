@@ -32,7 +32,11 @@
                 </fieldset>
                 <div class="pull-right">
                     <input type="submit" class="btn btn-success" value="Save place">
-                    <a href="@routes.Application.showGrid()" class="btn btn-default">Cancel</a>
+                    @if(!placeForm("id").valueOr("").isEmpty()){
+                        <a href="/place/@placeForm("id").value" class="btn btn-default">Cancel</a>
+                    } else {
+                        <a href="@routes.Application.showGrid()" class="btn btn-default">Cancel</a>
+                    }
                 </div>
             }
         </div>
