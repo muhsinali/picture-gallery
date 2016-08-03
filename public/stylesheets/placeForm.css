@@ -33,4 +33,21 @@ img {
 textarea {
     height: 130px;
     width: 100%;
+    font-size: 15px;
+}
+
+
+legend {
+    font-family: Georgia;
+    font-size: 20px;
+}
+
+label {
+    font-family: "Helvetica Neue", Arial;
+    font-size: 16px;
+}
+
+input {
+    font-family: Arial;
+    font-size: 15px;
 }
