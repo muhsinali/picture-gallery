@@ -4,10 +4,7 @@ import com.google.common.io.Files;
 import models.Place;
 import play.data.Form;
 import play.mvc.*;
-import views.html.grid;
-import views.html.list;
-import views.html.placeForm;
-import views.html.showPlace;
+import views.html.*;
 
 import java.io.IOException;
 
@@ -34,7 +31,8 @@ public class Application extends Controller {
     public static Result deletePlace(long id){
         Place foundPlace = Place.findById(id);
         if(foundPlace == null){
-            return notFound(String.format("Product with id %d does not exist", id));
+            flash("error", String.format("Error: Product with id %d does not exist.", id));
+            return showGrid();
         }
         foundPlace.delete();
 
@@ -43,6 +41,10 @@ public class Application extends Controller {
 
 
     public static Result details(Place place) {
+        if(place == null){
+            flash("error", "Error: Place could not be found.");
+            return showGrid();
+        }
         return ok(showPlace.render(place));
     }
 
@@ -69,9 +71,10 @@ public class Application extends Controller {
         Http.MultipartFormData.FilePart filePart = body.getFile("picture");
         Place place = boundForm.get();
 
-        if (filePart == null && Place.findById(place.id).picture == null) {
-            flash("error", "Missing picture");
-            return notFound();
+        // Check to see if there's no picture for the place
+        if (filePart == null && place.id == null) {
+            flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
+            return showGrid();
         }
 
         // If a new picture was provided, execute this code

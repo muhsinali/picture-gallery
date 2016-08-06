@@ -12,8 +12,6 @@ import javax.persistence.Lob;
  * Created by Muhsin Ali on 10/07/2016.
  */
 
-// TODO: need a validator to check if the uploaded file is actually an image
-
 @Entity
 public class Place extends Model implements PathBindable<Place> {
     public static Finder<Long, Place> find = new Finder<>(Long.class, Place.class);
