@@ -8,14 +8,20 @@ import views.html.*;
 
 import java.io.IOException;
 
-
+/**
+ * This web application stores places of interest in a database and displays them either using a list or a grid layout.
+ * The user can add, edit or delete places from the database.
+ *
+ * This controller handles all HTTP requests for this application.
+ */
 public class Application extends Controller {
     private static final Form<Place> addPlaceForm = Form.form(Place.class);
 
 
     public static Result showGrid(){
-        int numPlaces = Place.find.all().size();
-        return ok(grid.render(Place.find.all(), (int) Math.ceil(numPlaces / 3.0), 3));
+        int numColumns = 3;
+        int numRows = (int) Math.ceil(Place.find.all().size() / (double) numColumns);
+        return ok(grid.render(Place.find.all(), numRows, numColumns));
     }
 
     public static Result showList(){
@@ -40,7 +46,9 @@ public class Application extends Controller {
         return showGrid();
     }
 
-
+    /**
+     * Shows the details of a particular place to the user.
+     */
     public static Result details(Place place) {
         if(place == null){
             flash("error", "Error: Place could not be found.");
@@ -60,7 +68,9 @@ public class Application extends Controller {
         return foundPlace != null ? ok(foundPlace.picture) : badRequest();
     }
 
-
+    /**
+     * Adds/updates a place according to the information placed in the form by the user.
+     */
     public static Result upload() {
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Form<Place> boundForm = addPlaceForm.bindFromRequest();
@@ -72,13 +82,13 @@ public class Application extends Controller {
         Http.MultipartFormData.FilePart filePart = body.getFile("picture");
         Place place = boundForm.get();
 
-        // Check to see if there's no picture for the place
+        // This checks that a picture was chosen for new places that are going to be stored in the database
         if (filePart == null && place.id == null) {
             flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
             return showGrid();
         }
 
-        // If a new picture was provided, execute this code
+        // If a new picture was provided, assign it to the picture member variable
         if(filePart != null) {
             place.contentType = filePart.getContentType();
             try {
@@ -88,7 +98,7 @@ public class Application extends Controller {
             }
         }
 
-        // Check whether the place is new or is a pre-existing one
+        // Checks whether the place already exists in the database or is a new place to be added to the database
         if(place.id == null){
             place.save();
         } else {

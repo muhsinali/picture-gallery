@@ -9,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 /**
- * Created by Muhsin Ali on 10/07/2016.
+ * Place - a point of interest that the user would like to store in the gallery.
+ * A name, country and a picture must be provided. A description is optional.
  */
 
 @Entity
@@ -31,9 +32,12 @@ public class Place extends Model implements PathBindable<Place> {
     public String description;
 
     public Place(){
-        // Left empty - for the PathBindable interface
+        // Left empty - this is for the PathBindable interface
     }
 
+    /**
+     * Returns a place stored in the database using the unique ID provided
+     */
     public static Place findById(long id){
         return find.where().eq("id", id).findUnique();
     }
