@@ -36,6 +36,7 @@ public class Application extends Controller {
         }
         foundPlace.delete();
 
+        flash("success", "Place successfully deleted.");
         return showGrid();
     }
 
