@@ -1,4 +1,4 @@
-name := "fileUpload"
+name := "picture-gallery"
 
 version := "1.0-SNAPSHOT"
 
