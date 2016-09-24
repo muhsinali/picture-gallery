@@ -1,20 +1,23 @@
 #place-details {
-    height: 500px;
+    min-height: 500px;
+    height: auto;
     padding-bottom: 50px;
     margin-bottom: 50px;
 }
 
 #left-div {
-    height: inherit;
+    height: auto;
     max-width: 40%;
     width: 40%;
     min-width: 400px;
+    margin-bottom: 25px;
 }
 
 #right-div {
-    height: inherit;
+    height: auto;
     width: 55%;
     min-width: 300px;
+    margin-bottom: 25px;
 }
 
 /* Specifies the spacing of the text in the left div */
