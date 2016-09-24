@@ -8,6 +8,8 @@ import views.html.*;
 
 import java.io.IOException;
 
+import static models.Place.datastore;
+
 /**
  * This web application stores places of interest in a database and displays them either using a list or a grid layout.
  * The user can add, edit or delete places from the database.
@@ -20,12 +22,12 @@ public class Application extends Controller {
 
     public static Result showGrid(){
         int numColumns = 3;
-        int numRows = (int) Math.ceil(Place.find.all().size() / (double) numColumns);
-        return ok(grid.render(Place.find.all(), numRows, numColumns));
+        int numRows = (int) 4;// TODO - fix this Math.ceil(datastore.find(Place.class).getBatchSize() / (double) numColumns);
+        return ok(grid.render(Place.getAllPlaces(), numRows, numColumns));
     }
 
     public static Result showList(){
-        return ok(list.render(Place.find.all()));
+        return ok(list.render(Place.getAllPlaces()));
     }
 
 
@@ -34,13 +36,14 @@ public class Application extends Controller {
     }
 
 
-    public static Result deletePlace(long id){
+    public static Result deletePlace(int id){
         Place foundPlace = Place.findById(id);
         if(foundPlace == null){
             flash("error", String.format("Error: Product with id %d does not exist.", id));
             return showGrid();
         }
-        foundPlace.delete();
+        datastore.delete(foundPlace);
+        //foundPlace.delete();
 
         flash("success", "Place successfully deleted.");
         return showGrid();
@@ -63,8 +66,8 @@ public class Application extends Controller {
     }
 
 
-    public static Result getPictureOfPlace(long id){
-        Place foundPlace = Place.find.byId(id);
+    public static Result getPictureOfPlace(int id){
+        Place foundPlace = Place.findById(id);
         return foundPlace != null ? ok(foundPlace.picture) : badRequest();
     }
 
@@ -98,13 +101,14 @@ public class Application extends Controller {
             }
         }
 
-        // Checks whether the place already exists in the database or is a new place to be added to the database
-        if(place.id == null){
-            place.save();
-        } else {
-            place.update();
-        }
+        // If no new picture was provided for an existing document, reassign the existing picture
+        if(place.id != null && place.picture == null) place.picture = Place.findById(place.getId()).picture;
 
+
+        if(place.id == null) place.id = Place.getAllPlaces().size() + 1;
+        System.out.println(place.id);
+
+        datastore.save(place);
         return showGrid();
     }
 }

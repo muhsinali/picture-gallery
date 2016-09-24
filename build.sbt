@@ -10,4 +10,8 @@ libraryDependencies ++= Seq(
   cache
 )
 
+libraryDependencies += "org.mongodb" % "mongodb-driver" % "3.2.0"
+
+libraryDependencies += "org.mongodb.morphia" % "morphia" % "1.2.1"
+
 play.Project.playJavaSettings

@@ -7,10 +7,10 @@ GET     /                                   controllers.Application.showGrid()
 GET     /show-as-list                       controllers.Application.showList()
 GET     /add-place                          controllers.Application.addPlace()
 POST    /add-place                          controllers.Application.upload()
-GET     /get-picture-of-place/:id           controllers.Application.getPictureOfPlace(id: Long)
+GET     /get-picture-of-place/:id           controllers.Application.getPictureOfPlace(id: Int)
 GET     /place/:place                       controllers.Application.details(place: models.Place)
 GET     /edit-place/:place                  controllers.Application.editForm(place: models.Place)
-DELETE  /delete/:id                         controllers.Application.deletePlace(id: Long)
+DELETE  /delete/:id                         controllers.Application.deletePlace(id: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
