@@ -22,7 +22,7 @@ public class Application extends Controller {
 
     public static Result showGrid(){
         int numColumns = 3;
-        int numRows = (int) 4;// TODO - fix this Math.ceil(datastore.find(Place.class).getBatchSize() / (double) numColumns);
+        int numRows = (int) Math.ceil((Place.getNumberOfPlaces() / (double) numColumns));
         return ok(grid.render(Place.getAllPlaces(), numRows, numColumns));
     }
 
@@ -105,8 +105,7 @@ public class Application extends Controller {
         if(place.id != null && place.picture == null) place.picture = Place.findById(place.getId()).picture;
 
 
-        if(place.id == null) place.id = Place.getAllPlaces().size() + 1;
-        System.out.println(place.id);
+        if(place.id == null) place.id = Place.getNumberOfPlaces() + 1;
 
         datastore.save(place);
         return showGrid();

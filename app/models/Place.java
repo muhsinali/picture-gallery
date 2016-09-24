@@ -16,10 +16,6 @@ import java.util.List;
 
 
 
-// TODO remove ebean dependencies - use that BasicDAO to store/retrieve stuff from the database
-// TODO get the jsonFiles in public/ automatically loaded into the database at application startup
-// TODO sort out that id issue that you get when you add a new place if it's still there in MongoDB
-
 /**
  * Place - a point of interest that the user would like to store in the gallery.
  * A name, country and a picture must be provided. A description is optional.
@@ -70,17 +66,19 @@ public class Place implements PathBindable<Place> {
         return datastore.createQuery(Place.class).field("id").equal(id).get();
     }
 
+    public Integer getId(){return id;}
 
     public static List<Place> getAllPlaces(){
         return datastore.createQuery(Place.class).asList();
     }
 
+    public static Integer getNumberOfPlaces(){
+        return (int) datastore.createQuery(Place.class).countAll();
+    }
+
     public String toString() {
         return Integer.toString(id);
     }
-
-
-    public Integer getId(){return id;}
 
     @Override
     public Place bind(String key, String value){
