@@ -4,10 +4,7 @@ import org.bson.Document;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 
 /**
@@ -32,7 +29,14 @@ public class LoadDatabase {
     collection.drop();
 
     File resFolder = new File("./public/jsonFiles");
-    File[] jsonFiles = resFolder.listFiles(file -> file.getName().endsWith(".json"));
+
+    // Note: Initially used lambda expression, but that resulted in an "Unknown constant 18" compile-time error
+    File[] jsonFiles = resFolder.listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File file) {
+        return file.canRead() && file.getName().endsWith(".json");
+      }
+    });
 
     loadDataApp.saveEntities(jsonFiles);
     if(jsonFiles != null){
