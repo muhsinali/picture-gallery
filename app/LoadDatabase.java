@@ -32,7 +32,7 @@ public class LoadDatabase {
     collection.drop();
 
     File resFolder = new File("./public/jsonFiles");
-    File[] jsonFiles = resFolder.listFiles();
+    File[] jsonFiles = resFolder.listFiles(file -> file.getName().endsWith(".json"));
 
     loadDataApp.saveEntities(jsonFiles);
     if(jsonFiles != null){
