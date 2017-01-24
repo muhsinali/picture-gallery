@@ -12,6 +12,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -84,11 +85,28 @@ public class Place implements PathBindable<Place> {
 
     public String getDescription(){return description;}
 
-    public String getContentType(){return contentType;}
+    //public String getContentType(){return contentType;}
 
     public byte[] getPicture(){return this.picture;}
 
-    public void setId(Integer id){this.id = id;}
+    //public void setId(Integer id){this.id = id;}
+
+    public void generateId(){
+        List<Place> allPlaces = datastore.createQuery(Place.class).field("id").exists().asList();
+        allPlaces.sort(new Comparator<Place>() {
+            @Override
+            public int compare(Place o1, Place o2) {
+                return (o1.id < o2.id) ? -1 : ((o1.id.equals(o2.id)) ? 0 : 1);
+            }
+        });
+        int newId = 1;
+        for(Place place : allPlaces){
+            if(newId == place.id){
+                newId++;
+            }
+        }
+        this.id = newId;
+    }
 
     public void setContentType(String contentType){
         this.contentType = contentType;

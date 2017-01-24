@@ -93,7 +93,8 @@ public class Application extends Controller {
             }
 
             try {
-                place.setId(Place.getNumberOfPlaces() + 1);
+                //place.setId(Place.getNumberOfPlaces() + 1);
+                place.generateId();
                 place.setContentType(filePart.getContentType());
                 place.setPicture(Files.toByteArray(filePart.getFile()));
             } catch (IOException e) {
