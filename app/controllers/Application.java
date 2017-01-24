@@ -83,9 +83,8 @@ public class Application extends Controller {
         MultipartFormData.FilePart filePart = body.getFile("picture");
         Place place = boundForm.get();
 
-
+        // For new place objects - existing Places must have an ID
         if(place.getId() == null){
-            // For new place objects
             // Check that a picture was chosen for new places that don't yet exist in the database
             if (filePart == null) {
                 flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
@@ -93,7 +92,6 @@ public class Application extends Controller {
             }
 
             try {
-                //place.setId(Place.getNumberOfPlaces() + 1);
                 place.generateId();
                 place.setContentType(filePart.getContentType());
                 place.setPicture(Files.toByteArray(filePart.getFile()));

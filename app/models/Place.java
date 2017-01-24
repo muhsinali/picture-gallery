@@ -85,11 +85,8 @@ public class Place implements PathBindable<Place> {
 
     public String getDescription(){return description;}
 
-    //public String getContentType(){return contentType;}
-
     public byte[] getPicture(){return this.picture;}
 
-    //public void setId(Integer id){this.id = id;}
 
     public void generateId(){
         List<Place> allPlaces = datastore.createQuery(Place.class).field("id").exists().asList();
