@@ -28,6 +28,7 @@ public class Place implements PathBindable<Place> {
     public static Datastore datastore = morphia.createDatastore(client, "places");
 
 
+    // Note: Form only works properly if these member variables are public
     @Id
     public Integer id;
     @Constraints.Required
@@ -75,6 +76,25 @@ public class Place implements PathBindable<Place> {
     public static Integer getNumberOfPlaces(){
         return (int) datastore.createQuery(Place.class).countAll();
     }
+
+
+    public String getCountry(){return country;}
+
+    public String getName(){return name;}
+
+    public String getDescription(){return description;}
+
+    public String getContentType(){return contentType;}
+
+    public byte[] getPicture(){return this.picture;}
+
+    public void setId(Integer id){this.id = id;}
+
+    public void setContentType(String contentType){
+        this.contentType = contentType;
+    }
+
+    public void setPicture(byte[] pictureArray){this.picture = pictureArray;}
 
     public String toString() {
         return Integer.toString(id);

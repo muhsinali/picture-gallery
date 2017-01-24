@@ -36,12 +36,12 @@
         <tbody>
             @for(currentPlace <- places) {
                 <tr>
-                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.id</a></td>
-                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.name</a></td>
-                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.country</a></td>
-                    <td><a href="@routes.Application.details(currentPlace)"><img style="height: 50px" src="@routes.Application.getPictureOfPlace(currentPlace.id)" /></a></td>
+                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.getId()</a></td>
+                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.getName()</a></td>
+                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.getCountry()</a></td>
+                    <td><a href="@routes.Application.details(currentPlace)"><img style="height: 50px" src="@routes.Application.getPictureOfPlace(currentPlace.getId())" /></a></td>
                     <td><a class="glyphicon glyphicon-pencil" href="@routes.Application.details(currentPlace)"></a></td>
-                    <td><a class="glyphicon glyphicon-trash" onclick="javascript:del('@routes.Application.deletePlace(currentPlace.id)')"></a></td>
+                    <td><a class="glyphicon glyphicon-trash" onclick="javascript:del('@routes.Application.deletePlace(currentPlace.getId())')"></a></td>
                 </tr>
             }
         </tbody>

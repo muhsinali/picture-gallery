@@ -4,6 +4,7 @@ import com.google.common.io.Files;
 import models.Place;
 import play.data.Form;
 import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
 import views.html.*;
 
 import java.io.IOException;
@@ -43,8 +44,6 @@ public class Application extends Controller {
             return showGrid();
         }
         datastore.delete(foundPlace);
-        //foundPlace.delete();
-
         flash("success", "Place successfully deleted.");
         return showGrid();
     }
@@ -68,47 +67,52 @@ public class Application extends Controller {
 
     public static Result getPictureOfPlace(int id){
         Place foundPlace = Place.findById(id);
-        return foundPlace != null ? ok(foundPlace.picture) : badRequest();
+        return foundPlace != null ? ok(foundPlace.getPicture()) : badRequest();
     }
 
     /**
      * Adds/updates a place according to the information placed in the form by the user.
      */
     public static Result upload() {
-        Http.MultipartFormData body = request().body().asMultipartFormData();
+        MultipartFormData body = request().body().asMultipartFormData();
         Form<Place> boundForm = addPlaceForm.bindFromRequest();
         if(boundForm.hasErrors()){
             flash("error", "Please correct the form below.");
             return badRequest(placeForm.render(boundForm));
         }
-
-        Http.MultipartFormData.FilePart filePart = body.getFile("picture");
+        MultipartFormData.FilePart filePart = body.getFile("picture");
         Place place = boundForm.get();
 
-        // Check that a picture was chosen for new places that don't yet exist in the database
-        if (filePart == null && place.id == null) {
-            flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
-            return showGrid();
-        }
 
-        // If a new picture was provided, assign it to the picture member variable
-        if(filePart != null) {
-            place.contentType = filePart.getContentType();
+        if(place.getId() == null){
+            // For new place objects
+            // Check that a picture was chosen for new places that don't yet exist in the database
+            if (filePart == null) {
+                flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
+                return showGrid();
+            }
+
             try {
-                place.picture = Files.toByteArray(filePart.getFile());
+                place.setId(Place.getNumberOfPlaces() + 1);
+                place.setContentType(filePart.getContentType());
+                place.setPicture(Files.toByteArray(filePart.getFile()));
             } catch (IOException e) {
                 return internalServerError("Could not save place");
             }
-        }
-
-        // If no new picture was provided for an existing document, reassign the existing picture
-        if(place.id != null && place.picture == null) {
-            place.picture = Place.findById(place.getId()).picture;
-        }
-
-
-        if(place.id == null) {
-            place.id = Place.getNumberOfPlaces() + 1;
+        } else {
+            // For existing place objects
+            // If a new picture was provided, assign it to the picture member variable
+            if(filePart != null) {
+                try {
+                    place.setContentType(filePart.getContentType());
+                    place.setPicture(Files.toByteArray(filePart.getFile()));
+                } catch (IOException e) {
+                    return internalServerError("Could not save place");
+                }
+            } else {
+                // If no new picture was provided for an existing document, reassign the existing picture
+                place.setPicture(Place.findById(place.getId()).getPicture());
+            }
         }
 
         datastore.save(place);

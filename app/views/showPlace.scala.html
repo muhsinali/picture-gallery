@@ -21,25 +21,25 @@
 <div id="place-details">
     <div id="left-div" class="pull-left">
         <h4>Name</h4>
-        <p>@place.name</p>
+        <p>@place.getName()</p>
 
         <h4>Country</h4>
-        <p>@place.country</p>
+        <p>@place.getCountry()</p>
 
         <h4>Description</h4>
-        <p>@place.description</p>
+        <p>@place.getDescription()</p>
 
         <div class="pull-right">
             <a class="btn btn-default" href="@routes.Application.editForm(place)">Edit</a>
-            <a class="btn btn-danger" onclick="javascript:del('@routes.Application.deletePlace(place.id)')">Delete</a>
+            <a class="btn btn-danger" onclick="javascript:del('@routes.Application.deletePlace(place.getId())')">Delete</a>
         </div>
     </div>
 
 
-    @if(place.picture != null){
+    @if(place.getPicture() != null){
         <div id="right-div" class="pull-right">
             <h4>Current picture</h4>
-            <img src="/get-picture-of-place/@place.id" />
+            <img src="/get-picture-of-place/@place.getId()" />
         </div>
     }
 </div>
