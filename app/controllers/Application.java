@@ -85,7 +85,7 @@ public class Application extends Controller {
         Http.MultipartFormData.FilePart filePart = body.getFile("picture");
         Place place = boundForm.get();
 
-        // This checks that a picture was chosen for new places that are going to be stored in the database
+        // Check that a picture was chosen for new places that don't yet exist in the database
         if (filePart == null && place.id == null) {
             flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
             return showGrid();
@@ -102,10 +102,14 @@ public class Application extends Controller {
         }
 
         // If no new picture was provided for an existing document, reassign the existing picture
-        if(place.id != null && place.picture == null) place.picture = Place.findById(place.getId()).picture;
+        if(place.id != null && place.picture == null) {
+            place.picture = Place.findById(place.getId()).picture;
+        }
 
 
-        if(place.id == null) place.id = Place.getNumberOfPlaces() + 1;
+        if(place.id == null) {
+            place.id = Place.getNumberOfPlaces() + 1;
+        }
 
         datastore.save(place);
         return showGrid();

@@ -43,7 +43,7 @@ public class Place implements PathBindable<Place> {
     }
 
 
-    // Used for converting JSON data and storing it into the database
+    // Used for converting JSON data and storing it in the database
     public Place(org.bson.Document document){
         id =  document.getInteger("_id");
         name = document.getString("name");
