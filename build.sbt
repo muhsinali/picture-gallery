@@ -8,14 +8,10 @@ autoScalaLibrary := false
 
 libraryDependencies ++= Seq(
   javaJdbc,
-  javaEbean,
-  cache
+  cache,
+  "org.mongodb" % "mongodb-driver" % "3.2.0",
+  "org.mongodb.morphia" % "morphia" % "1.2.1",
+  "org.webjars" % "bootstrap" % "3.3.7"
 )
-
-libraryDependencies += "org.mongodb" % "mongodb-driver" % "3.2.0"
-
-libraryDependencies += "org.mongodb.morphia" % "morphia" % "1.2.1"
-
-libraryDependencies += "org.webjars" % "bootstrap" % "3.3.7"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
