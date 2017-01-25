@@ -23,7 +23,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Place</th>
                 <th>Country</th>
                 <th>Picture</th>
@@ -35,7 +34,6 @@
         <tbody>
             @for(currentPlace <- places) {
                 <tr>
-                    <td><a href="@routes.Application.details(currentPlace)">@currentPlace.getId()</a></td>
                     <td><a href="@routes.Application.details(currentPlace)">@currentPlace.getName()</a></td>
                     <td><a href="@routes.Application.details(currentPlace)">@currentPlace.getCountry()</a></td>
                     <td><a href="@routes.Application.details(currentPlace)"><img style="height: 50px" src="@routes.Application.getPictureOfPlace(currentPlace.getId())" /></a></td>
