@@ -14,7 +14,7 @@ import java.io.*;
  */
 
 /**
- * Global is used to populate the database at application startup using JSON files in public/jsonFiles.
+ * Global is used to populate/clear the database at application startup/shutdown
  */
 public class Global extends GlobalSettings {
   private BasicDAO<Place, Datastore> basicDAO;
@@ -23,15 +23,20 @@ public class Global extends GlobalSettings {
     basicDAO = new BasicDAO<>(Place.class, Place.datastore);
   }
 
-
+  @Override
   public void onStart(Application app) {
     Global loadDataApp = new Global();
     DBCollection collection = Place.datastore.getCollection(Place.class);
     collection.drop();
 
     File resFolder = new File("./public/jsonFiles");
-    File[] jsonFiles = resFolder.listFiles(f -> f.canRead() && f.getName().endsWith(".json"));
+    File[] jsonFiles = resFolder.listFiles(f -> f.isFile() && f.canRead() && f.getName().endsWith(".json"));
     loadDataApp.saveEntities(jsonFiles);
+  }
+
+  @Override
+  public void onStop(Application app){
+    Place.datastore.getCollection(Place.class).drop();
   }
 
 
@@ -48,16 +53,7 @@ public class Global extends GlobalSettings {
         e.printStackTrace();
       }
       Document parsedDocument = Document.parse(jsonToParse.toString());
-      this.basicDAO.save(new Place(parsedDocument));
-    }
-  }
-
-
-  // Prints id of all Places stored in database - used to check that Places has been loaded
-  // into the database correctly (for debugging purposes)
-  private void displayEntities(int numberOfJsonFiles){
-    for(int i = 1; i <= numberOfJsonFiles; i++) {
-      System.out.println(Place.findById(i));
+      basicDAO.save(new Place(parsedDocument));
     }
   }
 }
