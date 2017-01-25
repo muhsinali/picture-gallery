@@ -40,7 +40,7 @@ public class Application extends Controller {
     public static Result deletePlace(int id){
         Place foundPlace = Place.findById(id);
         if(foundPlace == null){
-            flash("error", String.format("Error: Product with id %d does not exist.", id));
+            flash("error", String.format("Product with id %d does not exist.", id));
             return showGrid();
         }
         datastore.delete(foundPlace);
@@ -53,7 +53,7 @@ public class Application extends Controller {
      */
     public static Result details(Place place) {
         if(place == null){
-            flash("error", "Error: Place could not be found.");
+            flash("error", "Place could not be found.");
             return showGrid();
         }
         return ok(showPlace.render(place));
@@ -87,7 +87,7 @@ public class Application extends Controller {
         if(place.getId() == null){
             // Check that a picture was chosen for new places that don't yet exist in the database
             if (filePart == null) {
-                flash("error", "Error: Missing picture. Please provide a picture when adding a place.");
+                flash("error", "Missing picture. Please provide a picture when adding a place.");
                 return showGrid();
             }
 
