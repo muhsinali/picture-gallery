@@ -25,13 +25,13 @@ public class Global extends GlobalSettings {
 
   @Override
   public void onStart(Application app) {
-    Global loadDataApp = new Global();
+    Global global = new Global();
     DBCollection collection = Place.datastore.getCollection(Place.class);
     collection.drop();
 
     File resFolder = new File("./public/jsonFiles");
     File[] jsonFiles = resFolder.listFiles(f -> f.isFile() && f.canRead() && f.getName().endsWith(".json"));
-    loadDataApp.saveEntities(jsonFiles);
+    global.loadPlaces(jsonFiles);
   }
 
   @Override
@@ -41,7 +41,7 @@ public class Global extends GlobalSettings {
 
 
   // Loads data from each JSON file in public/jsonFiles into the database
-  private void saveEntities(File[] jsonFiles){
+  private void loadPlaces(File[] jsonFiles){
     for(File aJsonFile: jsonFiles){
       StringBuilder jsonToParse = new StringBuilder();
       try (BufferedReader bufferedReader = new BufferedReader(new FileReader(aJsonFile))) {
