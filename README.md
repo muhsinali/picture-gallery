@@ -6,7 +6,10 @@ The user can add, edit or delete places from the database. It uses the [Play fra
 
 There is also a Scala implementation of this project [here](https://github.com/muhsinali/picture-gallery-scala) (rewrote it in Scala so I could learn Scala :grinning:).
 
-Tech stack:
+###How to run the web app:
+To run the web app locally, start the MongoDB database using `mongod` and then go to the root directory of this project and run `activator run`. Once ready, go to [http://localhost:9000](http://localhost:9000) (if running for the first time, will need to wait a bit for the source code to compile).
+
+###Tech stack:
 - Java 8
 - Play framework (version 2.3.10)
 - MongoDB (Morphia 3.2)
