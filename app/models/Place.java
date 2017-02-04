@@ -26,7 +26,6 @@ public class Place implements PathBindable<Place> {
     @Constraints.Required
     private String country;
     private byte[] picture;
-    private String contentType;
     private String description;
 
 
@@ -40,7 +39,6 @@ public class Place implements PathBindable<Place> {
         name = document.getString("name");
         country = document.getString("country");
         description = document.getString("description");
-        contentType = document.getString("content_type");
         try {
             picture = Files.readAllBytes(Paths.get(document.getString("picture")));
         } catch (IOException e){
@@ -67,7 +65,6 @@ public class Place implements PathBindable<Place> {
 
     public void setDescription(String description){this.description = description;}
 
-    public void setContentType(String contentType){this.contentType = contentType;}
 
     public void setPicture(byte[] pictureArray){picture = pictureArray;}
 

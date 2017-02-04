@@ -88,7 +88,6 @@ public class Application extends Controller {
 
             try {
                 place.setId(PlaceDAO.generateId());
-                place.setContentType(filePart.getContentType());
                 place.setPicture(Files.toByteArray(filePart.getFile()));
             } catch (IOException e) {
                 return internalServerError("Could not save place");
@@ -98,7 +97,6 @@ public class Application extends Controller {
             // If a new picture was provided, assign it to the picture member variable
             if(filePart != null) {
                 try {
-                    place.setContentType(filePart.getContentType());
                     place.setPicture(Files.toByteArray(filePart.getFile()));
                 } catch (IOException e) {
                     return internalServerError("Could not save place");

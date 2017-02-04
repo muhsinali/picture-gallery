@@ -17,10 +17,7 @@ public class PlaceDAO {
 
   private static int numPlacesGenerated = 0;
 
-  // TODO check writeResult
-  public static void delete(Place place){
-    datastore.delete(place);
-  }
+  public static void delete(Place place){datastore.delete(place);}
 
   public static void drop(){
     datastore.getCollection(Place.class).drop();
