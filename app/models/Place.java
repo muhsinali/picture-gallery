@@ -25,24 +25,22 @@ public class Place implements PathBindable<Place> {
     private static Morphia morphia = new Morphia();
     private static MongoClient client = new MongoClient("localhost", 27017);
     public static Datastore datastore = morphia.createDatastore(client, "places");
-    private static int numPlacesGenerated = 0;
 
 
-    // Note: Form only works properly if these member variables are public
     @Id
-    public Integer id;
+    private Integer id;
     @Constraints.Required
-    public String name;
+    private String name;
     @Constraints.Required
-    public String country;
-    public byte[] picture;
-    public String contentType;
-    public String description;
+    private String country;
+    private byte[] picture;
+    private String contentType;
+    private String description;
+
 
     public Place(){
         // Left empty - this is for the PathBindable interface
     }
-
 
     // Used for converting JSON data and storing it in the database
     public Place(org.bson.Document document){
@@ -63,20 +61,13 @@ public class Place implements PathBindable<Place> {
     /**
      * Returns a place stored in the database using the unique ID provided
      */
-    public static Place findById(int id){
-        return datastore.createQuery(Place.class).field("id").equal(id).get();
-    }
+    public static Place findById(int id){return datastore.createQuery(Place.class).field("id").equal(id).get();}
 
     public Integer getId(){return id;}
 
-    public static List<Place> getAllPlaces(){
-        return datastore.createQuery(Place.class).asList();
-    }
+    public static List<Place> getAllPlaces(){return datastore.createQuery(Place.class).asList();}
 
-    public static Integer getNumberOfPlaces(){
-        return (int) datastore.createQuery(Place.class).countAll();
-    }
-
+    public static Integer getNumberOfPlaces(){return (int) datastore.createQuery(Place.class).countAll();}
 
     public String getCountry(){return country;}
 
@@ -100,28 +91,27 @@ public class Place implements PathBindable<Place> {
         id = newId;
     }
 
-    public void setContentType(String contentType){
-        this.contentType = contentType;
-    }
+
+    public void setId(Integer id){this.id = id;}
+
+    public void setName(String name){this.name = name;}
+
+    public void setCountry(String country){this.country = country;}
+
+    public void setDescription(String description){this.description = description;}
+
+    public void setContentType(String contentType){this.contentType = contentType;}
 
     public void setPicture(byte[] pictureArray){picture = pictureArray;}
 
-    public String toString() {
-        return Integer.toString(id);
-    }
+    public String toString() {return Integer.toString(id);}
 
     @Override
-    public Place bind(String key, String value){
-        return findById(new Integer(value));
-    }
+    public Place bind(String key, String value){return findById(new Integer(value));}
 
     @Override
-    public String javascriptUnbind(){
-        return Integer.toString(id);
-    }
+    public String javascriptUnbind(){return Integer.toString(id);}
 
     @Override
-    public String unbind(String key){
-        return Integer.toString(id);
-    }
+    public String unbind(String key){return Integer.toString(id);}
 }

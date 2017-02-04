@@ -31,13 +31,9 @@ public class Application extends Controller {
         return ok(grid.render(Place.getAllPlaces(), numRows, numColumns));
     }
 
-    public static Result showList(){
-        return ok(list.render(Place.getAllPlaces()));
-    }
+    public static Result showList(){return ok(list.render(Place.getAllPlaces()));}
 
-    public static Result addPlace(){
-        return ok(placeForm.render(addPlaceForm));
-    }
+    public static Result addPlace(){return ok(placeForm.render(addPlaceForm));}
 
     public static Result deletePlace(int id){
         Place foundPlace = Place.findById(id);
