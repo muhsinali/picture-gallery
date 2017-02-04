@@ -1,5 +1,7 @@
 Introduction:
 =================================
+![alt tag](public/images/pictureGallery.png)
+
 This is a RESTful, CRUD web application that stores places of interest in a database and displays them either using a grid or a list layout back to the user.
 
 The user can add, edit or delete places from the database. It uses the [Play framework](https://www.playframework.com/) and the MVC pattern, and is currently configured to run locally on one's machine.
@@ -15,4 +17,4 @@ To run the web app locally, start the MongoDB database using `mongod` and then g
 - MongoDB (Morphia 3.2)
 - HTML, CSS, Bootstrap 3, [Twirl template engine](https://www.playframework.com/documentation/2.5.x/JavaTemplates)
 
-If you have any suggestions, please submit a feature request/issue/bug. Always looking for feedback! 
+If you have any suggestions, please submit a feature request/issue/bug. Always looking for feedback!
