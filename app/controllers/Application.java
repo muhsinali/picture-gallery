@@ -3,9 +3,13 @@ package controllers;
 import com.google.common.io.Files;
 import models.Place;
 import play.data.Form;
-import play.mvc.*;
+import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData;
-import views.html.*;
+import play.mvc.Result;
+import views.html.grid;
+import views.html.list;
+import views.html.placeForm;
+import views.html.showPlace;
 
 import java.io.IOException;
 
@@ -31,11 +35,9 @@ public class Application extends Controller {
         return ok(list.render(Place.getAllPlaces()));
     }
 
-
     public static Result addPlace(){
         return ok(placeForm.render(addPlaceForm));
     }
-
 
     public static Result deletePlace(int id){
         Place foundPlace = Place.findById(id);
@@ -64,7 +66,6 @@ public class Application extends Controller {
         return ok(placeForm.render(filledForm));
     }
 
-
     public static Result getPictureOfPlace(int id){
         Place foundPlace = Place.findById(id);
         return foundPlace != null ? ok(foundPlace.getPicture()) : badRequest();
@@ -74,12 +75,12 @@ public class Application extends Controller {
      * Adds/updates a place according to the information placed in the form by the user.
      */
     public static Result upload() {
-        MultipartFormData body = request().body().asMultipartFormData();
         Form<Place> boundForm = addPlaceForm.bindFromRequest();
         if(boundForm.hasErrors()){
             flash("error", "Please correct the form below.");
             return badRequest(placeForm.render(boundForm));
         }
+        MultipartFormData body = request().body().asMultipartFormData();
         MultipartFormData.FilePart filePart = body.getFile("picture");
         Place place = boundForm.get();
 
@@ -98,6 +99,7 @@ public class Application extends Controller {
             } catch (IOException e) {
                 return internalServerError("Could not save place");
             }
+            flash("success", "Successfully added place");
         } else {
             // For existing place objects
             // If a new picture was provided, assign it to the picture member variable
@@ -112,6 +114,7 @@ public class Application extends Controller {
                 // If no new picture was provided for an existing document, reassign the existing picture
                 place.setPicture(Place.findById(place.getId()).getPicture());
             }
+            flash("success", "Successfully edited place");
         }
 
         datastore.save(place);

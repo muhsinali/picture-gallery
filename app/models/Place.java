@@ -3,11 +3,10 @@ package models;
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import play.data.validation.Constraints;
-import play.mvc.PathBindable;
-
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import play.data.validation.Constraints;
+import play.mvc.PathBindable;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,6 +25,7 @@ public class Place implements PathBindable<Place> {
     private static Morphia morphia = new Morphia();
     private static MongoClient client = new MongoClient("localhost", 27017);
     public static Datastore datastore = morphia.createDatastore(client, "places");
+    private static int numPlacesGenerated = 0;
 
 
     // Note: Form only works properly if these member variables are public
@@ -52,7 +52,7 @@ public class Place implements PathBindable<Place> {
         description = document.getString("description");
         contentType = document.getString("content_type");
         try {
-            this.picture = Files.readAllBytes(Paths.get(document.getString("picture")));
+            picture = Files.readAllBytes(Paths.get(document.getString("picture")));
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class Place implements PathBindable<Place> {
 
     public String getDescription(){return description;}
 
-    public byte[] getPicture(){return this.picture;}
+    public byte[] getPicture(){return picture;}
 
 
     public void generateId(){
@@ -97,14 +97,14 @@ public class Place implements PathBindable<Place> {
                 newId++;
             }
         }
-        this.id = newId;
+        id = newId;
     }
 
     public void setContentType(String contentType){
         this.contentType = contentType;
     }
 
-    public void setPicture(byte[] pictureArray){this.picture = pictureArray;}
+    public void setPicture(byte[] pictureArray){picture = pictureArray;}
 
     public String toString() {
         return Integer.toString(id);
@@ -117,11 +117,11 @@ public class Place implements PathBindable<Place> {
 
     @Override
     public String javascriptUnbind(){
-        return Integer.toString(this.id);
+        return Integer.toString(id);
     }
 
     @Override
     public String unbind(String key){
-        return Integer.toString(this.id);
+        return Integer.toString(id);
     }
 }
