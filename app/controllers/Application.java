@@ -41,7 +41,6 @@ public class Application extends Controller {
         }
 
         PlaceDAO.delete(foundPlace);
-        flash("success", "Place successfully deleted.");
         return showGrid();
     }
 
@@ -94,7 +93,6 @@ public class Application extends Controller {
             } catch (IOException e) {
                 return internalServerError("Could not save place");
             }
-            flash("success", "Successfully added place");
         } else {
             // For existing place objects
             // If a new picture was provided, assign it to the picture member variable
@@ -109,7 +107,6 @@ public class Application extends Controller {
                 // If no new picture was provided for an existing document, reassign the existing picture
                 place.setPicture(PlaceDAO.findById(place.getId()).getPicture());
             }
-            flash("success", "Successfully edited place");
         }
 
         PlaceDAO.save(place);

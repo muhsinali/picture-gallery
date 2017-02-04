@@ -15,6 +15,8 @@ public class PlaceDAO {
   private static MongoClient client = new MongoClient("localhost", 27017);
   private static Datastore datastore = morphia.createDatastore(client, "places");
 
+  private static int numPlacesGenerated = 0;
+
   // TODO check writeResult
   public static void delete(Place place){
     datastore.delete(place);
@@ -34,16 +36,8 @@ public class PlaceDAO {
   public static Integer getNumberOfPlaces(){return (int) datastore.createQuery(Place.class).countAll();}
 
   public static int generateId(){
-    List<Place> allPlaces = datastore.createQuery(Place.class).field("id").exists().asList();
-    allPlaces.sort((o1, o2) -> (o1.getId() < o2.getId()) ? -1 : ((o1.getId().equals(o2.getId())) ? 0 : 1));
-
-    int newId = 1;
-    for(Place place : allPlaces){
-      if(newId == place.getId()){
-        newId++;
-      }
-    }
-    return newId;
+    numPlacesGenerated++;
+    return numPlacesGenerated;
   }
 
   public static void save(Place place){
