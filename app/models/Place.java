@@ -1,8 +1,6 @@
 package models;
 
-import com.mongodb.MongoClient;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
+import controllers.PlaceDAO;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import play.data.validation.Constraints;
@@ -11,7 +9,6 @@ import play.mvc.PathBindable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 
 
@@ -22,11 +19,6 @@ import java.util.List;
 
 @Entity("places")
 public class Place implements PathBindable<Place> {
-    private static Morphia morphia = new Morphia();
-    private static MongoClient client = new MongoClient("localhost", 27017);
-    public static Datastore datastore = morphia.createDatastore(client, "places");
-
-
     @Id
     private Integer id;
     @Constraints.Required
@@ -57,17 +49,7 @@ public class Place implements PathBindable<Place> {
     }
 
 
-
-    /**
-     * Returns a place stored in the database using the unique ID provided
-     */
-    public static Place findById(int id){return datastore.createQuery(Place.class).field("id").equal(id).get();}
-
     public Integer getId(){return id;}
-
-    public static List<Place> getAllPlaces(){return datastore.createQuery(Place.class).asList();}
-
-    public static Integer getNumberOfPlaces(){return (int) datastore.createQuery(Place.class).countAll();}
 
     public String getCountry(){return country;}
 
@@ -76,21 +58,6 @@ public class Place implements PathBindable<Place> {
     public String getDescription(){return description;}
 
     public byte[] getPicture(){return picture;}
-
-
-    public void generateId(){
-        List<Place> allPlaces = datastore.createQuery(Place.class).field("id").exists().asList();
-        allPlaces.sort((o1, o2) -> (o1.id < o2.id) ? -1 : ((o1.id.equals(o2.id)) ? 0 : 1));
-
-        int newId = 1;
-        for(Place place : allPlaces){
-            if(newId == place.id){
-                newId++;
-            }
-        }
-        id = newId;
-    }
-
 
     public void setId(Integer id){this.id = id;}
 
@@ -107,7 +74,7 @@ public class Place implements PathBindable<Place> {
     public String toString() {return Integer.toString(id);}
 
     @Override
-    public Place bind(String key, String value){return findById(new Integer(value));}
+    public Place bind(String key, String value){return PlaceDAO.findById(new Integer(value));}
 
     @Override
     public String javascriptUnbind(){return Integer.toString(id);}

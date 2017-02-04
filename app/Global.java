@@ -1,12 +1,13 @@
-import com.mongodb.DBCollection;
+import controllers.PlaceDAO;
 import models.Place;
 import org.bson.Document;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.dao.BasicDAO;
 import play.Application;
 import play.GlobalSettings;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 /**
@@ -17,17 +18,10 @@ import java.io.*;
  * Global is used to populate/clear the database at application startup/shutdown
  */
 public class Global extends GlobalSettings {
-  private BasicDAO<Place, Datastore> basicDAO;
-
-  public Global(){
-    basicDAO = new BasicDAO<>(Place.class, Place.datastore);
-  }
-
   @Override
   public void onStart(Application app) {
     Global global = new Global();
-    DBCollection collection = Place.datastore.getCollection(Place.class);
-    collection.drop();
+    PlaceDAO.drop();
 
     File resFolder = new File("./public/jsonFiles");
     File[] jsonFiles = resFolder.listFiles(f -> f.isFile() && f.canRead() && f.getName().endsWith(".json"));
@@ -35,9 +29,7 @@ public class Global extends GlobalSettings {
   }
 
   @Override
-  public void onStop(Application app){
-    Place.datastore.getCollection(Place.class).drop();
-  }
+  public void onStop(Application app){PlaceDAO.drop();}
 
 
   // Loads data from each JSON file in public/jsonFiles into the database
@@ -53,7 +45,7 @@ public class Global extends GlobalSettings {
         e.printStackTrace();
       }
       Document parsedDocument = Document.parse(jsonToParse.toString());
-      basicDAO.save(new Place(parsedDocument));
+      PlaceDAO.save(new Place(parsedDocument));
     }
   }
 }

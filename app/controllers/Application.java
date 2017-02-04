@@ -13,8 +13,6 @@ import views.html.showPlace;
 
 import java.io.IOException;
 
-import static models.Place.datastore;
-
 /**
  * This web application stores places of interest in a database and displays them either using a list or a grid layout.
  * The user can add, edit or delete places from the database.
@@ -27,21 +25,22 @@ public class Application extends Controller {
 
     public static Result showGrid(){
         int numColumns = 3;
-        int numRows = (int) Math.ceil((Place.getNumberOfPlaces() / (double) numColumns));
-        return ok(grid.render(Place.getAllPlaces(), numRows, numColumns));
+        int numRows = (int) Math.ceil((PlaceDAO.getNumberOfPlaces() / (double) numColumns));
+        return ok(grid.render(PlaceDAO.getAllPlaces(), numRows, numColumns));
     }
 
-    public static Result showList(){return ok(list.render(Place.getAllPlaces()));}
+    public static Result showList(){return ok(list.render(PlaceDAO.getAllPlaces()));}
 
     public static Result addPlace(){return ok(placeForm.render(addPlaceForm));}
 
     public static Result deletePlace(int id){
-        Place foundPlace = Place.findById(id);
+        Place foundPlace = PlaceDAO.findById(id);
         if(foundPlace == null){
             flash("error", String.format("Product with id %d does not exist.", id));
             return showGrid();
         }
-        datastore.delete(foundPlace);
+
+        PlaceDAO.delete(foundPlace);
         flash("success", "Place successfully deleted.");
         return showGrid();
     }
@@ -63,7 +62,7 @@ public class Application extends Controller {
     }
 
     public static Result getPictureOfPlace(int id){
-        Place foundPlace = Place.findById(id);
+        Place foundPlace = PlaceDAO.findById(id);
         return foundPlace != null ? ok(foundPlace.getPicture()) : badRequest();
     }
 
@@ -89,7 +88,7 @@ public class Application extends Controller {
             }
 
             try {
-                place.generateId();
+                place.setId(PlaceDAO.generateId());
                 place.setContentType(filePart.getContentType());
                 place.setPicture(Files.toByteArray(filePart.getFile()));
             } catch (IOException e) {
@@ -108,12 +107,12 @@ public class Application extends Controller {
                 }
             } else {
                 // If no new picture was provided for an existing document, reassign the existing picture
-                place.setPicture(Place.findById(place.getId()).getPicture());
+                place.setPicture(PlaceDAO.findById(place.getId()).getPicture());
             }
             flash("success", "Successfully edited place");
         }
 
-        datastore.save(place);
+        PlaceDAO.save(place);
         return showGrid();
     }
 }
