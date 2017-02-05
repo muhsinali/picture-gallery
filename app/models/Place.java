@@ -34,19 +34,21 @@ public class Place implements PathBindable<Place> {
     }
 
     // Used for converting JSON data and storing it in the database
-    public Place(org.bson.Document document){
+    public Place(org.bson.Document document, String rootDir){
         id =  PlaceDAO.generateId();
         name = document.getString("name");
         country = document.getString("country");
         description = document.getString("description");
         try {
-            picture = Files.readAllBytes(Paths.get(document.getString("picture")));
+            String imagePath = rootDir + "public/images/places/" + document.getString("picture");
+            picture = Files.readAllBytes(Paths.get(imagePath));
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
 
+    // GETTERS
     public Integer getId(){return id;}
 
     public String getCountry(){return country;}
@@ -57,6 +59,8 @@ public class Place implements PathBindable<Place> {
 
     public byte[] getPicture(){return picture;}
 
+
+    // SETTERS
     public void setId(Integer id){this.id = id;}
 
     public void setName(String name){this.name = name;}
@@ -65,8 +69,10 @@ public class Place implements PathBindable<Place> {
 
     public void setDescription(String description){this.description = description;}
 
-
     public void setPicture(byte[] pictureArray){picture = pictureArray;}
+
+
+
 
     public String toString() {return Integer.toString(id);}
 

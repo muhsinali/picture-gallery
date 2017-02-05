@@ -7,9 +7,7 @@ import org.mongodb.morphia.Morphia;
 
 import java.util.List;
 
-/**
- * Created by Muhsin Ali on 04/02/2017.
- */
+
 public class PlaceDAO {
   private static Morphia morphia = new Morphia();
   private static MongoClient client = new MongoClient("localhost", 27017);
@@ -23,9 +21,7 @@ public class PlaceDAO {
     datastore.getCollection(Place.class).drop();
   }
 
-  /**
-   * Returns a place stored in the database using the unique ID provided
-   */
+  // Returns a place stored in the database using the unique ID provided
   public static Place findById(int id){return datastore.createQuery(Place.class).field("id").equal(id).get();}
 
   public static List<Place> getAllPlaces(){return datastore.createQuery(Place.class).asList();}

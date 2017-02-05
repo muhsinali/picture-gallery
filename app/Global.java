@@ -11,10 +11,6 @@ import java.io.IOException;
 
 
 /**
- * Created by Muhsin Ali on 18/09/2016.
- */
-
-/**
  * Global is used to populate/clear the database at application startup/shutdown
  */
 public class Global extends GlobalSettings {
@@ -23,9 +19,16 @@ public class Global extends GlobalSettings {
     Global global = new Global();
     PlaceDAO.drop();
 
-    File resFolder = new File("./public/jsonFiles");
+    /* TODO
+      There's likely to be a better way in dealing with the discrepancy in the relative path to the root dir
+      from the current dir
+     */
+    final String rootDir = app.isTest() ? "../../" : "./";
+
+    String jsonDir = rootDir + "public/jsonFiles";
+    File resFolder = new File(jsonDir);
     File[] jsonFiles = resFolder.listFiles(f -> f.isFile() && f.canRead() && f.getName().endsWith(".json"));
-    global.loadPlaces(jsonFiles);
+    global.loadPlaces(jsonFiles, rootDir);
   }
 
   @Override
@@ -33,7 +36,7 @@ public class Global extends GlobalSettings {
 
 
   // Loads data from each JSON file in public/jsonFiles into the database
-  private void loadPlaces(File[] jsonFiles){
+  private void loadPlaces(File[] jsonFiles, String rootDir){
     for(File aJsonFile: jsonFiles){
       StringBuilder jsonToParse = new StringBuilder();
       try (BufferedReader bufferedReader = new BufferedReader(new FileReader(aJsonFile))) {
@@ -45,7 +48,7 @@ public class Global extends GlobalSettings {
         e.printStackTrace();
       }
       Document parsedDocument = Document.parse(jsonToParse.toString());
-      PlaceDAO.save(new Place(parsedDocument));
+      PlaceDAO.save(new Place(parsedDocument, rootDir));
     }
   }
 }
